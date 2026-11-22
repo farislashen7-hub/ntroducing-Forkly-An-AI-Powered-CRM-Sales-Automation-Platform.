@@ -1,6 +1,6 @@
-# Forkly — AI-Powered Sales CRM 
+# Forkly — AI-Powered Leads CRM
 
-Forkly captures restaurant leads, drafts personalized follow-up messages with AI, requires **human approval** before anything is sent, and delivers messages over **WhatsApp**. It also manages the sales pipeline, demo bookings, campaigns, and follow-up tasks from one dashboard.
+Forkly captures leads from any source, drafts personalized follow-up messages with AI, requires **human approval** before anything is sent, and delivers messages over **WhatsApp**. It also manages the sales pipeline, demo bookings, campaigns, and follow-up tasks from one dashboard.
 
 > **Status: interactive prototype.** The UI, database layer, and API functions are working. The AI drafting, WhatsApp delivery, and calendar booking run in **n8n** workflows that you connect yourself (see [n8n integration](#n8n-integration)). Without them, the app falls back to simulated sends and local demo data.
 
@@ -201,6 +201,8 @@ The app talks to n8n through webhooks protected by the `x-webhook-secret` header
 }
 ```
 
+In the payloads and the database, `restaurant_name` is the column that stores the lead's company or business name.
+
 Respond with any 2xx and, ideally, `{ "provider_message_id": "wamid…", "status": "Accepted by Provider" }`.
 
 **Callback events** (n8n → `POST /api/n8n-callback`, header `x-webhook-secret`):
@@ -271,7 +273,7 @@ Ten tables in the `public` schema (see `supabase/migrations/`):
 | Table | Holds |
 |---|---|
 | `profiles` | team members and roles |
-| `leads` | contact, restaurant, source, status, score inputs, consent, interests |
+| `leads` | contact, company, source, status, score inputs, consent, interests |
 | `conversations`, `messages` | WhatsApp thread and individual messages with delivery status |
 | `approvals` | approval queue for AI-drafted messages |
 | `bookings` | demo appointments |
